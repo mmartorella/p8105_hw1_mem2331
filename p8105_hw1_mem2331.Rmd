@@ -4,3 +4,49 @@ author: "Molly Martorella"
 date: "9/14/2019"
 output: github_document
 ---
+
+# Problem 1
+
+Load R **libraries**:
+
+```{r}
+
+library(tidyverse)
+
+```
+
+Create a **dataframe** called _p1_df_:
+
+```{r}
+
+p1_df <- tibble(
+  samp_norm = runif(8),
+  samp_greater0 = samp_norm > 0,
+  char = sample(LETTERS, 8),
+  cats = factor(x = c("orange", "white", "tiger", "tiger", "orange", "white", "white", "tiger"))
+)
+
+```
+
+Attempting to take the **mean** of each variable in _p1_df_:
+
+```{r collapse=TRUE}
+
+mean(pull(p1_df, samp_norm))
+mean(pull(p1_df, samp_greater0))
+mean(pull(p1_df, char))
+mean(pull(p1_df, cats))
+
+```
+
+The mean of _samp_norm_ is `r mean(pull(p1_df, samp_norm))`, and the mean of _samp_greater0_ is `r mean(pull(p1_df, samp_greater0))`. Means were not calculated for the variables _char_ and _cats_ because these variables are not numeric or logical. 
+
+Attempting to **convert variables** to numeric type:
+
+```{r eval=FALSE}
+
+
+
+```
+
+
