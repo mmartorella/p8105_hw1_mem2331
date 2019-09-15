@@ -41,12 +41,88 @@ mean(pull(p1_df, cats))
 
 The mean of _samp_norm_ is `r mean(pull(p1_df, samp_norm))`, and the mean of _samp_greater0_ is `r mean(pull(p1_df, samp_greater0))`. Means were not calculated for the variables _char_ and _cats_ because these variables are not numeric or logical. 
 
-Attempting to **convert variables** to numeric type:
+Attempting to **convert variables to numeric** type:
 
 ```{r eval=FALSE}
+as.numeric(pull(p1_df, samp_greater0))
+as.numeric(pull(p1_df, char))
+as.numeric(pull(p1_df, cats))
+```
 
+The implicit coercion heirarchy in R is: logical < integer < numeric < complex < character. Here we attempting to forcibly coerce our variables to numeric. The logical variable _samp_greater0_ outputs 1's because TRUE and FALSE are coerced to 1 and 0, respectively. The character variable _char_ cannot be coerced to numeric, and produces NA. The variable _cats_ is of the class factor but has a type of integer, and thus is coerced to numeric based on the levels 1-3 that are present. The mean function requires the data type to be numeric or logical and does not automatically coerce the input to these types. However, it would be possible to take the mean of the integer variable if the function as.numeric were applied inside of the mean function.
 
+Performing **operations with converted variables**:
+
+```{r collapse=TRUE}
+
+as.numeric(pull(p1_df, samp_greater0))*pull(p1_df, samp_norm)
+
+as.factor(pull(p1_df, samp_greater0))*pull(p1_df, samp_norm)
+
+as.numeric(as.factor(pull(p1_df, samp_greater0)))*pull(p1_df, samp_norm)
 
 ```
 
 
+# Problem 2
+
+Creating a **dataframe** called _p2_df_:
+
+```{r}
+
+p2_df <- tibble(
+  x = runif(500),
+  y = runif(500),
+  xy_greater1 = ((x + y) > 1),
+  xy_numeric = as.numeric(xy_greater1),
+  xy_factor = as.factor(xy_greater1)
+)
+
+```
+
+The _p2_df_ dataset has `r nrow(p2_df)` rows and `r ncol(p2_df)` columns.
+
+The variable _x_ has a mean of `r mean(pull(p2_df, x))`, a median of `r median(pull(p2_df, x))`, and a standard deviation of `r sd(pull(p2_df, x))`. 
+
+The proportion of cases where _x + y > 1_ is `r sum(as.numeric(pull(p2_df, xy_greater1)))/nrow(p2_df)`.
+
+
+**Plotting** a scatterplot of _x_ vs _y_ with data points colored based on logical variable _xy_greater1_:
+
+```{r}
+
+ggplot(p2_df, aes(x = x, y = y, color = xy_greater1)) +
+  geom_point()
+
+```
+
+Now plotted with _xy_numeric_ as color:
+
+```{r}
+
+ggplot(p2_df, aes(x = x, y = y, color = xy_numeric)) +
+  geom_point()
+
+```
+
+And finally using _xy_factor_ to color the points:
+
+```{r}
+
+ggplot(p2_df, aes(x = x, y = y, color = xy_factor)) +
+  geom_point()
+
+```
+
+The color scales for the first plot using _xy_greater1_ and the third plot using _xy_factor_ appear the same because both variables are categorical. The middle plot using _xy_numeric_ to color the points uses a continuous scale because the variable is numeric and its potential to be any value within the range needs to be represented.
+
+**Exporting** first scatterplot to project directory:
+
+```{r}
+
+plot1 <- ggplot(p2_df, aes(x = x, y = y, color = xy_greater1)) +
+  geom_point()
+
+ggsave("plot1.pdf", plot = plot1, device = "pdf")
+
+```
