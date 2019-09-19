@@ -49,7 +49,7 @@ as.numeric(pull(p1_df, char))
 as.numeric(pull(p1_df, cats))
 ```
 
-The implicit coercion heirarchy in R is: logical < integer < numeric < complex < character. Here we attempting to forcibly coerce our variables to numeric. The logical variable _samp_greater0_ outputs 1's because TRUE and FALSE are coerced to 1 and 0, respectively. The character variable _char_ cannot be coerced to numeric, and produces NA. The variable _cats_ is of the class factor but has a type of integer, and thus is coerced to numeric based on the levels 1-3 that are present. The mean function requires the data type to be numeric or logical and does not automatically coerce the input to these types. However, it would be possible to take the mean of the integer variable if the function as.numeric were applied inside of the mean function.
+The implicit coercion heirarchy in R is: logical < integer < numeric < complex < character. Here we attempting to forcibly coerce our variables to numeric. The logical variable _samp_greater0_ outputs 1's because TRUE and FALSE are coerced to 1 and 0, respectively. The character variable _char_ cannot be coerced to numeric, and produces NA. The variable _cats_ is of the class factor but has a type of integer, and thus is coerced to numeric based on the levels 1-3 that are present. The mean function requires the data type to be numeric or logical and does not automatically coerce the input to these types. However, it would be possible to take the mean of the _cats_ variable if the function as.numeric were applied inside of the mean function.
 
 Performing **operations with converted variables**:
 
